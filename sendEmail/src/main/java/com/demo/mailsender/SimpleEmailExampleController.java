@@ -1,0 +1,100 @@
+package com.demo.mailsender;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.mail.MailParseException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.demo.mailsender.constant.MyConstants;
+
+@Controller
+public class SimpleEmailExampleController {
+	
+	@Autowired
+	public JavaMailSender emailSender;
+	
+	@ResponseBody
+	@RequestMapping("/sendSimpleEmail")
+	public String sendSimpleEmail() {
+		SimpleMailMessage message = new SimpleMailMessage();
+		
+		message.setTo(MyConstants.FRIEND_EMAIL);
+		message.setSubject("Test Simple Email");
+		message.setText("Hello. I'm testing Simple Email");
+		
+		//send message
+		this.emailSender.send(message);
+		
+		return "Email sent";
+	}
+	
+	
+	@RequestMapping("/sendMail")
+	public String sendEmailOk() {
+		SimpleMailMessage msg = new SimpleMailMessage();
+		msg.setTo("nguyentangtrung23061998@gmail.com","ngocquynh12199@gmail.com");
+		
+		msg.setSubject("Testing from Spring boot");
+		msg.setText("Hello word \n Spring Boot Email");
+		
+		emailSender.send(msg);
+		
+		return "ok";
+	}
+	
+	@RequestMapping("/sendEmailContentHTML")
+	public String sendEmailWithAttachment() {
+		MimeMessage msg =emailSender.createMimeMessage();
+		try {
+			MimeMessageHelper helper = new MimeMessageHelper(msg,true);
+			
+			helper.setTo("nguyentangtrung23061998@gmail.com");
+
+	        helper.setSubject("Testing from Spring Boot");
+	        helper.setText("<h1 >Check attachment for images</h1>");
+	        helper.addAttachment("my_photo.png", new ClassPathResource("static/boy_1.jpg"));
+	        emailSender.send(msg);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "Send email success";
+	}
+	
+	@RequestMapping("/sendEmailContentHTML2")
+	public String sendEmailToUsers(){
+	    String result =null;
+	    MimeMessage message =emailSender.createMimeMessage();
+	    try {
+
+	        MimeMessageHelper helper = new MimeMessageHelper(message, false, "utf-8");
+	        String htmlMsg = "<body style='border:2px solid black'>"
+	                    +"Your onetime password for registration is  " 
+	                        + "Please use this OTP to complete your new user registration."+
+	                          "OTP is confidential, do not share this  with anyone.</body>";
+	        message.setContent(htmlMsg, "text/html");
+	        helper.setTo("nguyentangtrung23061998@gmail.com");
+	        helper.setSubject("Testing spring boot");
+	        result="success";
+	        emailSender.send(message);
+	    } catch (MessagingException e) {
+	        throw new MailParseException(e);
+	    }finally {
+	        if(result !="success"){
+	            result="fail";
+	        }
+	    }
+
+	    return result;
+
+	}
+}

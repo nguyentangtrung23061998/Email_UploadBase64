@@ -1,0 +1,5 @@
+package com.demo.mailsender.constant;
+
+public class MyConstants {
+
+}

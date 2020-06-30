@@ -1,0 +1,5 @@
+package com.spring.forgotpassword.repository;
+
+public class PasswordResetTokenRepository extends Cru {
+
+}

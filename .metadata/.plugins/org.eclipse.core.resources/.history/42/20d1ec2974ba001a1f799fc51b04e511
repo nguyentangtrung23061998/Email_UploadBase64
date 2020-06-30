@@ -1,0 +1,5 @@
+package com.demo.mailsender;
+
+public class MailSenderApplication {
+
+}

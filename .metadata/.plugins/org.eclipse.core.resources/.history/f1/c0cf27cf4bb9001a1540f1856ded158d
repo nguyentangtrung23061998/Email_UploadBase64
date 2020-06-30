@@ -1,0 +1,5 @@
+package com.spring.file.springangularreadfile.model;
+
+public class ImageModel {
+
+}

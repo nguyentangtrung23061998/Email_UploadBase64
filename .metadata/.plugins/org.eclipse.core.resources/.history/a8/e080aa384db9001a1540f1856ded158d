@@ -1,0 +1,5 @@
+package com.spring.file.springangularreadfile.controller;
+
+public class ImageUploadController {
+
+}

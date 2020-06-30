@@ -1,0 +1,5 @@
+package com.spring.forgotpassword.entity;
+
+public class User {
+
+}

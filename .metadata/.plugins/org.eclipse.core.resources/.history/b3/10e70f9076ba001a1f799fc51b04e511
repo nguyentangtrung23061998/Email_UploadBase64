@@ -1,0 +1,5 @@
+package com.demo.mailsender.config;
+
+public class MailConfig {
+
+}

@@ -1,0 +1,5 @@
+package com.spring.forgotpassword.service;
+
+public class ISecurityUserService {
+
+}
